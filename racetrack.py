@@ -6,9 +6,16 @@ import matplotlib.axes as axes
 
 class RaceTrack:
 
-    def __init__(self, filepath : str):
+    def __init__(self, filepath : str, raceline_path: str = None):
         data = np.loadtxt(filepath, comments="#", delimiter=",")
         self.centerline = data[:, 0:2]
+
+        if raceline_path is not None:
+            raceline_data = np.loadtxt(raceline_path, comments="#", delimiter=",")
+            self.raceline = raceline_data[:, 0:2]
+        else:
+            self.raceline = None
+
         self.centerline = np.vstack((self.centerline[-1], self.centerline, self.centerline[0]))
 
         centerline_gradient = np.gradient(self.centerline, axis=0)
